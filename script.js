@@ -5,21 +5,18 @@ const SUPABASE_PUBLISHABLE_KEY =
 
 const authView = document.querySelector("#auth-view");
 const signedInView = document.querySelector("#signed-in-view");
+const mode = document.body.dataset.authMode;
 const form = document.querySelector("#auth-form");
 const emailInput = document.querySelector("#email");
 const passwordInput = document.querySelector("#password");
-const formTitle = document.querySelector("#form-title");
-const formDescription = document.querySelector("#form-description");
 const submitButton = document.querySelector("#submit-button");
 const submitLabel = document.querySelector("#submit-label");
 const statusMessage = document.querySelector("#status-message");
 const sessionMessage = document.querySelector("#session-message");
 const userEmail = document.querySelector("#user-email");
 const signoutButton = document.querySelector("#signout-button");
-const tabs = [...document.querySelectorAll(".tab")];
 
 let supabaseClient;
-let mode = "login";
 
 function showMessage(element, message, type = "error") {
   element.textContent = message;
@@ -42,25 +39,6 @@ function setLoading(isLoading) {
     : mode === "login"
       ? "Sign in"
       : "Create account";
-}
-
-function setMode(nextMode) {
-  mode = nextMode;
-  const signingUp = mode === "signup";
-
-  formTitle.textContent = signingUp ? "Create your account" : "Welcome back";
-  formDescription.textContent = signingUp
-    ? "Add your email and choose a password to get started."
-    : "Enter your details to sign in to your account.";
-  passwordInput.autocomplete = signingUp ? "new-password" : "current-password";
-  submitLabel.textContent = signingUp ? "Create account" : "Sign in";
-  clearMessage(statusMessage);
-
-  tabs.forEach((tab) => {
-    const isSelected = tab.dataset.mode === mode;
-    tab.classList.toggle("is-active", isSelected);
-    tab.setAttribute("aria-selected", String(isSelected));
-  });
 }
 
 function renderSession(session) {
@@ -114,10 +92,6 @@ async function initializeAuth() {
   }
 }
 
-tabs.forEach((tab) => {
-  tab.addEventListener("click", () => setMode(tab.dataset.mode));
-});
-
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   clearMessage(statusMessage);
@@ -152,7 +126,6 @@ form.addEventListener("submit", async (event) => {
       if (data.session) {
         renderSession(data.session);
       } else {
-        setMode("login");
         showMessage(
           statusMessage,
           "Account created. Check your email for a confirmation link, then sign in.",

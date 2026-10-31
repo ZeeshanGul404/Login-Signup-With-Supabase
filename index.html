@@ -7,7 +7,7 @@
     <title>Welcome | Supabase Auth</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body data-auth-mode="login">
     <main class="auth-layout">
       <section class="intro-panel" aria-label="Welcome">
         <a class="brand" href="#" aria-label="Northstar home">
@@ -38,31 +38,6 @@
             <p class="form-intro" id="form-description">
               Enter your details to sign in to your account.
             </p>
-
-            <div class="tabs" role="tablist" aria-label="Account action">
-              <button
-                class="tab is-active"
-                id="login-tab"
-                type="button"
-                role="tab"
-                aria-selected="true"
-                aria-controls="auth-form"
-                data-mode="login"
-              >
-                Sign in
-              </button>
-              <button
-                class="tab"
-                id="signup-tab"
-                type="button"
-                role="tab"
-                aria-selected="false"
-                aria-controls="auth-form"
-                data-mode="signup"
-              >
-                Create account
-              </button>
-            </div>
 
             <form id="auth-form">
               <label for="email">Email address</label>
@@ -100,6 +75,10 @@
                 <span class="button-arrow" aria-hidden="true">→</span>
               </button>
             </form>
+
+            <p class="auth-switch">
+              Don’t have an account? <a href="signup.html">Create account</a>
+            </p>
 
             <p class="security-note">
               <span aria-hidden="true">⌑</span> Your account is securely managed
